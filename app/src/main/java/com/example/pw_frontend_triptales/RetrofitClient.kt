@@ -1,5 +1,3 @@
-package com.example.pw_frontend_triptales
-
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
