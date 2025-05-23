@@ -13,5 +13,6 @@ data class Post(
     val testo_OCR: String?,
     val testo_tradotto: String?,
     val tags_oggetti: String?,
-    val didascalia_automatica: String?
+    val didascalia_automatica: String?,
+    val posts: List<Post> = emptyList()
 )

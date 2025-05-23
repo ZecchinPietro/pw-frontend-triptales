@@ -4,5 +4,6 @@ data class Group(
     val id: Int,
     val nome_gruppo: String,
     val descrizione: String?,
-    val codice_accesso: String?
+    val codice_accesso: String?,
+    val posts: List<Post> = emptyList()
 )
