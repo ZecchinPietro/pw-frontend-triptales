@@ -19,12 +19,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-
 @Composable
 fun RegistrationScreen(navController: NavController) {
-    var name by remember { mutableStateOf("") }
+    var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
     val context = LocalContext.current
 
     Scaffold(
@@ -40,15 +40,13 @@ fun RegistrationScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text("Registrazione", style = MaterialTheme.typography.headlineLarge)
-
             Spacer(modifier = Modifier.height(32.dp))
 
             OutlinedTextField(
-                value = name,
-                onValueChange = { name = it },
-                label = { Text("Nome") },
+                value = username,
+                onValueChange = { username = it },
+                label = { Text("Nome utente") },
                 singleLine = true,
-                keyboardOptions = KeyboardOptions.Default,
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -58,11 +56,11 @@ fun RegistrationScreen(navController: NavController) {
                 value = email,
                 onValueChange = { email = it },
                 label = { Text("Email") },
-                singleLine = true,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Email,
                     imeAction = ImeAction.Next
                 ),
+                singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -72,12 +70,12 @@ fun RegistrationScreen(navController: NavController) {
                 value = password,
                 onValueChange = { password = it },
                 label = { Text("Password") },
-                singleLine = true,
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Done
                 ),
+                singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -86,25 +84,25 @@ fun RegistrationScreen(navController: NavController) {
             Button(
                 onClick = {
                     CoroutineScope(Dispatchers.IO).launch {
-                        try {
-                            val registerRequest = RegisterRequest(name, email, password)
-                            val response = RetrofitClient.apiService.register(registerRequest)
+                        if (username.isBlank() || email.isBlank() || password.isBlank()) {
+                            withContext(Dispatchers.Main) {
+                                Toast.makeText(context, "Compila tutti i campi", Toast.LENGTH_SHORT).show()
+                            }
+                            return@launch
+                        }
 
-                            if (response.isSuccessful) {
-                                withContext(Dispatchers.Main) {
-                                    Toast.makeText(context, "Registrazione avvenuta con successo", Toast.LENGTH_SHORT).show()
-                                    navController.navigate("login") // o home
-                                }
-                            } else {
-                                withContext(Dispatchers.Main) {
-                                    Toast.makeText(context, "Errore nella registrazione", Toast.LENGTH_SHORT).show()
-                                }
+                        try {
+                            val request = RegisterRequest(username, email, password)
+                            val response = RetrofitClient.apiService.register(request)
+
+                            withContext(Dispatchers.Main) {
+                                Toast.makeText(context, "Registrazione completata!", Toast.LENGTH_SHORT).show()
+                                navController.navigate("login")
                             }
                         } catch (e: Exception) {
                             withContext(Dispatchers.Main) {
-                                Toast.makeText(context, "Errore di connessione", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, "Errore di registrazione: ${e.message}", Toast.LENGTH_SHORT).show()
                             }
-                            e.printStackTrace()
                         }
                     }
                 },
@@ -112,7 +110,6 @@ fun RegistrationScreen(navController: NavController) {
             ) {
                 Text("Registrati")
             }
-
 
             TextButton(
                 onClick = { navController.navigate("home") },
