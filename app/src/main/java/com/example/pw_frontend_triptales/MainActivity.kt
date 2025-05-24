@@ -13,6 +13,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.pw_frontend_triptales.ui.theme.PurpleButton
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,20 +50,19 @@ fun HomeScreen(navController: NavHostController) {
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        Button(
+        PurpleButton(
             onClick = { navController.navigate("login") },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Login (non attivo)")
-        }
+            modifier = Modifier.fillMaxWidth(),
+            text = "Login"
+        )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(
+        PurpleButton(
             onClick = { navController.navigate("register") },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Registrati (non attivo)")
-        }
+            modifier = Modifier.fillMaxWidth(),
+            text = "Registrati"
+        )
     }
 }
+

@@ -1,58 +1,62 @@
 package com.example.pw_frontend_triptales.ui.theme
 
-import android.app.Activity
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
-import androidx.compose.material3.lightColorScheme
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.Color
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+private val PrimaryLight = Color(0xFF6200EE) // Viola acceso
+private val PrimaryDark = Color(0xFFBB86FC)  // Viola chiaro
+
+private val SecondaryLight = Color(0xFF03DAC6) // Verde acqua
+private val SecondaryDark = Color(0xFF03DAC6)
+
+private val BackgroundLight = Color(0xFFF5F5F5)
+private val BackgroundDark = Color(0xFF121212)
+
+private val SurfaceLight = Color(0xFFFFFFFF)
+private val SurfaceDark = Color(0xFF1E1E1E)
+
+private val ErrorLight = Color(0xFFB00020)
+private val ErrorDark = Color(0xFFCF6679)
+
+private val LightColors = lightColorScheme(
+    primary = PrimaryLight,
+    onPrimary = Color.White,
+    secondary = SecondaryLight,
+    onSecondary = Color.Black,
+    background = BackgroundLight,
+    onBackground = Color.Black,
+    surface = SurfaceLight,
+    onSurface = Color.Black,
+    error = ErrorLight,
+    onError = Color.White,
 )
 
-private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+private val DarkColors = darkColorScheme(
+    primary = PrimaryDark,
+    onPrimary = Color.Black,
+    secondary = SecondaryDark,
+    onSecondary = Color.Black,
+    background = BackgroundDark,
+    onBackground = Color.White,
+    surface = SurfaceDark,
+    onSurface = Color.White,
+    error = ErrorDark,
+    onError = Color.Black,
 )
 
 @Composable
-fun PwfrontendtriptalesTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+fun TripTalesTheme(
+    useDarkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
+    val colors = if (useDarkTheme) DarkColors else LightColors
 
     MaterialTheme(
-        colorScheme = colorScheme,
+        colorScheme = colors,
         typography = Typography,
+        shapes = Shapes,
         content = content
     )
 }
