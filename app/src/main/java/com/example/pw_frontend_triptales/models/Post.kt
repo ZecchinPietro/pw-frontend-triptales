@@ -14,5 +14,7 @@ data class Post(
     val testo_tradotto: String?,
     val tags_oggetti: String?,
     val didascalia_automatica: String?,
-    val posts: List<Post> = emptyList()
-)
+) {
+    val immagine_url: String?
+        get() = immagine_path?.let { "http://10.0.2.2:8000/media/$it" }
+}

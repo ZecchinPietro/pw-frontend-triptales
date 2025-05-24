@@ -18,7 +18,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            TripTalesApp()
+            MaterialTheme {
+                TripTalesApp()
+            }
         }
     }
 }
@@ -51,7 +53,7 @@ fun HomeScreen(navController: NavHostController) {
             onClick = { navController.navigate("login") },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Login")
+            Text("Login (non attivo)")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -60,7 +62,7 @@ fun HomeScreen(navController: NavHostController) {
             onClick = { navController.navigate("register") },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Registrati")
+            Text("Registrati (non attivo)")
         }
     }
 }

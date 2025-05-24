@@ -6,7 +6,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.pw_frontend_triptales.screens.GroupListScreen
 
 @Composable
 fun MainMenuScreen(accessToken: String, onLogout: () -> Unit) {

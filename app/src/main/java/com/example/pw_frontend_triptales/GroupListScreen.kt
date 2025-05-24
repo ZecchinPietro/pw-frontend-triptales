@@ -1,4 +1,4 @@
-package com.example.pw_frontend_triptales.screens
+package com.example.pw_frontend_triptales
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
@@ -9,10 +9,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.example.pw_frontend_triptales.RetrofitClient
 import com.example.pw_frontend_triptales.models.Group
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import coil.compose.AsyncImage
 
 @Composable
 fun GroupListScreen(accessToken: String) {
@@ -73,9 +71,19 @@ fun GroupListScreen(accessToken: String) {
                                             Spacer(modifier = Modifier.height(4.dp))
                                             Text(it, style = MaterialTheme.typography.bodySmall)
                                         }
+                                        post.immagine_url?.let { imageUrl ->
+                                            AsyncImage(
+                                                model = imageUrl,
+                                                contentDescription = "Immagine del post",
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .height(200.dp)
+                                                    .padding(top = 8.dp)
+                                            )
+                                        }
                                         Spacer(modifier = Modifier.height(4.dp))
                                         Text(
-                                            text = "Creato il: ${post.data_creazione.take(10)}", // solo YYYY-MM-DD
+                                            text = "Creato il: ${post.data_creazione.take(10)}",
                                             style = MaterialTheme.typography.labelSmall
                                         )
                                     }
@@ -95,3 +103,4 @@ fun GroupListScreen(accessToken: String) {
         }
     }
 }
+

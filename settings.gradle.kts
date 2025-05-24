@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "pw-frontend-triptales"
 include(":app")
+ 
