@@ -13,7 +13,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.pw_frontend_triptales.ui.theme.PurpleButton
+import com.example.pw_frontend_triptales.ui.theme.InstaButton
+import android.content.Intent
+import androidx.compose.ui.platform.LocalContext
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +41,7 @@ fun TripTalesApp() {
 
 @Composable
 fun HomeScreen(navController: NavHostController) {
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -50,7 +53,7 @@ fun HomeScreen(navController: NavHostController) {
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        PurpleButton(
+        InstaButton(
             onClick = { navController.navigate("login") },
             modifier = Modifier.fillMaxWidth(),
             text = "Login"
@@ -58,11 +61,20 @@ fun HomeScreen(navController: NavHostController) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        PurpleButton(
+        InstaButton(
             onClick = { navController.navigate("register") },
             modifier = Modifier.fillMaxWidth(),
             text = "Registrati"
         )
+        Button(
+            onClick = {
+                val intent = Intent(context, MenuActivity::class.java)
+                context.startActivity(intent)
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Bypass Login (DEBUG)")
+        }
     }
 }
 

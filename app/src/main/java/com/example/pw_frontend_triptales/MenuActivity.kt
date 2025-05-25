@@ -6,11 +6,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import com.example.pw_frontend_triptales.ui.theme.PwfrontendtriptalesTheme
+import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.compose.*
+import com.example.pw_frontend_triptales.ui.theme.TripTalesTheme
 
 class MenuActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -18,39 +21,86 @@ class MenuActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val sharedPreferences = getSharedPreferences("auth", Context.MODE_PRIVATE)
-        val accessToken = sharedPreferences.getString("access_token", null)
+        val accessToken = sharedPreferences.getString("access_token", "debug-token")
 
         setContent {
-            PwfrontendtriptalesTheme {
+            val context = LocalContext.current
+            var isDarkTheme by remember {
+                mutableStateOf(
+                    sharedPreferences.getBoolean("is_dark_theme", false)
+                )
+            }
+
+            TripTalesTheme(useDarkTheme = isDarkTheme) {
                 if (accessToken != null) {
+                    val navController = rememberNavController()
+
                     Scaffold(
                         topBar = {
-                            TopAppBar(title = { Text("Menu Gita") })
+                            TopAppBar(
+                                title = {
+                                    Text("TripTales", style = MaterialTheme.typography.headlineMedium)
+                                },
+                                actions = {
+                                    IconButton(onClick = {
+                                        navController.navigate("settings")
+                                    }) {
+                                        Icon(Icons.Default.Settings, contentDescription = "Impostazioni")
+                                    }
+                                }
+                            )
+                        },
+                        bottomBar = {
+                            val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
+                            if (currentRoute !in listOf("settings")) {
+                                BottomNavigationBar(navController)
+                            }
                         }
                     ) { padding ->
-                        Column(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(padding)
-                                .padding(16.dp),
-                            verticalArrangement = Arrangement.Top,
-                            horizontalAlignment = Alignment.CenterHorizontally
+                        NavHost(
+                            navController = navController,
+                            startDestination = BottomNavItem.Menu.route,
+                            modifier = Modifier.padding(padding)
                         ) {
-                            GroupListScreen(accessToken)
-
-                            Spacer(modifier = Modifier.height(24.dp))
-
-                            Button(onClick = {
-                                with(sharedPreferences.edit()) {
-                                    remove("access_token")
-                                    remove("refresh_token")
-                                    apply()
+                            composable(BottomNavItem.Menu.route) {
+                                MainMenuScreen(accessToken) {
+                                    with(sharedPreferences.edit()) {
+                                        remove("access_token")
+                                        remove("refresh_token")
+                                        apply()
+                                    }
+                                    val intent = Intent(context, MainActivity::class.java)
+                                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                    context.startActivity(intent)
                                 }
-                                val intent = Intent(this@MenuActivity, MainActivity::class.java)
-                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                startActivity(intent)
-                            }) {
-                                Text("Logout")
+                            }
+                            composable(BottomNavItem.FaceDetection.route) {
+                                FaceDetectionScreen()
+                            }
+                            composable(BottomNavItem.ImageLabeling.route) {
+                                ImageLabelingScreen()
+                            }
+                            composable(BottomNavItem.OCR.route) {
+                                OCRTranslateScreenWithPermissions()
+                            }
+                            composable("settings") {
+                                SettingsScreen(
+                                    isDarkTheme = isDarkTheme,
+                                    onThemeToggle = {
+                                        isDarkTheme = !isDarkTheme
+                                        sharedPreferences.edit().putBoolean("is_dark_theme", isDarkTheme).apply()
+                                    },
+                                    onLogout = {
+                                        with(sharedPreferences.edit()) {
+                                            remove("access_token")
+                                            remove("refresh_token")
+                                            apply()
+                                        }
+                                        val intent = Intent(context, MainActivity::class.java)
+                                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                        context.startActivity(intent)
+                                    }
+                                )
                             }
                         }
                     }

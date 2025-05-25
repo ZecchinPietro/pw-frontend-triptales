@@ -8,19 +8,25 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 
 @Composable
-fun PurpleButton(
+fun InstaButton(
+    text: String,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    text: String
+    modifier: Modifier = Modifier
 ) {
     Button(
         onClick = onClick,
         modifier = modifier,
-        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6200EE)),
-        shape = MaterialTheme.shapes.medium
+        colors = ButtonDefaults.buttonColors(
+            containerColor = InstaPrimary,
+            contentColor = Color.White
+        ),
+        shape = MaterialTheme.shapes.medium,
+        elevation = ButtonDefaults.buttonElevation(0.dp)
     ) {
-        Text(text = text, color = Color.White, style = MaterialTheme.typography.bodyLarge)
+        Text(text = text, style = MaterialTheme.typography.bodyLarge)
     }
 }
+

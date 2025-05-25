@@ -37,6 +37,7 @@ android {
     buildFeatures {
         compose = true
     }
+    buildToolsVersion = "35.0.0"
 }
 
 dependencies {
@@ -49,6 +50,11 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.foundation.layout.android)
+    implementation(libs.androidx.foundation.layout.android)
+    implementation(libs.androidx.foundation.layout.android)
+    implementation(libs.androidx.foundation.layout.android)
+    implementation(libs.androidx.foundation.layout.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -63,4 +69,16 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.4.0")
     implementation ("androidx.navigation:navigation-compose:2.7.7")
     implementation("androidx.compose.material3:material3:1.1.0")
+    implementation ("com.google.mlkit:face-detection:16.1.6")
+    implementation ("com.google.mlkit:image-labeling:17.0.7")
+    implementation ("com.google.mlkit:text-recognition:16.0.0")
+    implementation ("com.google.mlkit:translate:17.0.2")
+    implementation ("com.google.mlkit:face-detection:16.1.6")
+    implementation ("com.google.mlkit:image-labeling:17.0.7")
+
+    implementation ("androidx.camera:camera-core:1.3.3")
+    implementation ("androidx.camera:camera-camera2:1.3.3")
+    implementation ("androidx.camera:camera-lifecycle:1.3.3")
+    implementation ("androidx.camera:camera-view:1.3.3")
+    implementation ("com.google.accompanist:accompanist-permissions:0.34.0")
 }

@@ -18,6 +18,7 @@ fun GroupListScreen(accessToken: String) {
     var isLoading by remember { mutableStateOf(true) }
     val context = LocalContext.current
 
+
     LaunchedEffect(Unit) {
         try {
             val authHeader = "Bearer $accessToken"
