@@ -1,6 +1,5 @@
 package com.example.pw_frontend_triptales.ui.theme
 
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
